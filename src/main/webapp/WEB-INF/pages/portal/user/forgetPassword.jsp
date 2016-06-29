@@ -24,13 +24,13 @@ a{
 <script type="text/javascript">
 //重新加载验证码
 function reload(obj){
-	obj.src="<%=request.getContextPath()%>/portal/verifyCodeAction_imageCode.do?nocache="+new Date().getTime();
+	obj.src="<%=request.getContextPath()%>/portal/verifyCodeAction_imageCode.do?type=mail&nocache="+new Date().getTime();
 }
 $(document).ready(function(){
 	$("#verifyEmail").click(function(){
 		//验证 邮箱
 		$('#validForm').form('submit', {  
-			url:'<%=request.getContextPath()%>/portal/verifyCodeAction_verifyEmail.do',
+			url:'<%=request.getContextPath()%>/portal/registryAction_verifyEmail.do',
 			novalidate:true,
 			ajax:true,
 		    onSubmit: function(){
@@ -64,7 +64,7 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td>验证码：</td>
-				<td><input size="16" name="imageCode" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入验证码'"><img onclick="reload(this)" style="vertical-align:middle" src="<%=request.getContextPath()%>/portal/verifyCodeAction_imageCode.do">&nbsp;</td>
+				<td><input size="16" name="verifyCode" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入验证码'"><img onclick="reload(this)" style="vertical-align:middle" src="<%=request.getContextPath()%>/portal/verifyCodeAction_imageCode.do?type=mail">&nbsp;</td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="submit" value="发送验证邮件" id="verifyEmail" size="20" style="margin-left: 110px;margin-top: 20px;background-color: silver;"></td>

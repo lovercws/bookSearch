@@ -43,7 +43,7 @@
 	
 	//重新加载验证码
 	function reload(obj){
-		obj.src="<%=request.getContextPath()%>/portal/verifyCodeAction_imageCode.do?nocache="+new Date().getTime();
+		obj.src="<%=request.getContextPath()%>/portal/verifyCodeAction_imageCode.do?type=login&nocache="+new Date().getTime();
 	}
 	
 	//键盘 enter提交表单
@@ -99,7 +99,7 @@ a{
 						<p style="position: relative;margin-top: 30px">验&nbsp;证&nbsp;码&nbsp;:
 							<input type="text" name="verifyCode" class="bj3" style="vertical-align: middle; line-height: 30px;width:40%; height: 30px;margin-left: 20px" />
 							<img style="margin-left: 10px; position: absolute; top: 1px; left: 40%;" alt="验证码" onclick="reload(this)"
-								src="<%=request.getContextPath()%>/portal/verifyCodeAction_imageCode.do" width="75" height="35" />
+								src="<%=request.getContextPath()%>/portal/verifyCodeAction_imageCode.do?type=login" width="75" height="35" />
 						</p>
 						<p style="margin-top: 30px">
 							<span><a class="login" href="#" onClick="submit()">登录</a></span>

@@ -9,4 +9,6 @@ public interface IUserDao extends IHibernateDao<User>{
 
 	public void updateUser(User user);
 
+	public void updateUserActive(String email, boolean active);
+
 }

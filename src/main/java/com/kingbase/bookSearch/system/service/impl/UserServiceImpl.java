@@ -146,4 +146,9 @@ public class UserServiceImpl implements IUserService{
 		}
 		return user;
 	}
+
+	@Override
+	public void avtiveUser(User user) {
+		userDao.updateUserActive(user.getEmail(), user.isActive());
+	}
 }

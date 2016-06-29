@@ -1,7 +1,8 @@
 package com.kingbase.bookSearch.portal.action;
 
 import java.io.IOException;
-import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
 
 import javax.annotation.Resource;
 
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.kingbase.bookSearch.common.action.BaseAction;
+import com.kingbase.bookSearch.common.utils.HostUtil;
 import com.kingbase.bookSearch.core.email.SimpleMailService;
 import com.kingbase.bookSearch.system.bean.User;
 import com.kingbase.bookSearch.system.service.IUserService;
@@ -50,8 +52,10 @@ public class RegistryAction extends BaseAction<User> {
 		if(verifyCode!=null&&verifyCode.equals(sessionVerifyCode)){
 			User findUser=userService.findUserByEmail(user.getEmail());
 			if(findUser!=null){
-				String hostAddress = InetAddress.getLocalHost().getHostAddress();
-				mailService.sendSimpleMail(user.getEmail(), "验证邮箱", "<a href='http://"+hostAddress+":8081/bookSearch/portal/RegistryAction_resetPassword.do?id="+findUser.getId()+"'>点击验证邮箱</a>");
+				
+				//发送邮件
+				String host = HostUtil.getHost(request, "registryAction_resetPassword.do?id="+user.getId());
+				mailService.sendSimpleMail(user.getEmail(), "验证邮箱", "<a href='"+host+"'>点击验证邮箱</a>");
 			    msg="邮件发送成功";
 			}else{
 				msg="该邮箱未注册";
@@ -90,9 +94,58 @@ public class RegistryAction extends BaseAction<User> {
 	/**
 	 * 注册
 	 * @return 跳转到注册跳转页面
+	 * @throws UnknownHostException 
 	 */
-	public String register() {
-		request.setAttribute("forwardMsg", "邮件发送成功,请激活邮件注册用户");
-		return "register";
+	public String register() throws UnknownHostException {
+		log.info("注册用户-->>"+user);
+		
+		String returnURL="";
+		String msg="";
+		
+		//检测验证码
+		String verifyCode=user.getVerifyCode();
+		String sessionVerifyCode=(String) request.getSession().getAttribute(User.REGISTRY_VERIFYCODE);
+		if(verifyCode!=null&&verifyCode.equalsIgnoreCase(sessionVerifyCode)){
+			//检测email唯一性
+			User existsUser = userService.findUserByEmail(user.getEmail());
+			//该邮件已经被使用
+			if(existsUser!=null){
+				msg="该邮箱已经注册用户，请重新选择邮箱";
+				returnURL="goReg";
+			}else{
+				//添加注册用户信息
+				user.setRegistryDate(new Date());
+				user.setActive(false);
+				user.setId(0);
+				
+				//保存用户
+				userService.saveOrUpdate(user);
+				
+				//发送激活账号email
+				String host = HostUtil.getHost(request, "registryAction_activeUser.do?email="+user.getEmail());
+				mailService.sendSimpleMail(user.getEmail(), "验证注册信息", "<a href='"+host+"'>点击激活邮箱</a>");
+				
+				msg="邮件发送成功,请激活用户";
+				returnURL="forward";
+			}
+		}else{
+			msg="验证码不匹配";
+			returnURL="goReg";
+		}
+		
+		request.setAttribute("forwardMsg", msg);
+		request.setAttribute("user", user);
+		return returnURL;
+	}
+	
+	/**
+	 * 激活用户
+	 * @return
+	 */
+	public String activeUser(){
+		log.info("用户激活-->>"+user);
+		user.setActive(true);
+		userService.avtiveUser(user);
+		return "forward";
 	}
 }

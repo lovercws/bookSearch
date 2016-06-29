@@ -52,4 +52,18 @@ public class UserDaoImpl  extends HibernateDaoImpl<User> implements IUserDao{
 		});
 	}
 
+	@Override
+	public void updateUserActive(final String email, final boolean active) {
+		getHibernateTemplate().execute(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+				SQLQuery sqlQuery = session.createSQLQuery("UPDATE tb_user set user_active=? where user_email=?");
+				sqlQuery.setParameter(0, active);
+				sqlQuery.setParameter(1, email);
+				sqlQuery.executeUpdate();
+				return null;
+			}
+		});
+	}
+
 }

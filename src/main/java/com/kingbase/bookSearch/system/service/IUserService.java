@@ -80,4 +80,10 @@ public interface IUserService {
 	 */
 	public User findUserByEmail(String email);
 
+	/**
+	 * 激活用户
+	 * @param user
+	 */
+	public void avtiveUser(User user);
+
 }
