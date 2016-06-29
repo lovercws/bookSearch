@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="system" namespace="/system" extends="struts-default">
+		<!--用户管理-->
+		<action name="userManagerAction_*" class="UserManagerAction"
+			method="{1}">
+			<result name="userDetailMessage">/WEB-INF/pages/system/userManager/userDetailMessage.jsp</result>
+			<result name="userList">/WEB-INF/pages/system/userManager/userList.jsp</result>
+			<result name="changePassword">/WEB-INF/pages/system/userManager/changePassword.jsp</result>
+			<result name="userStatistics">/WEB-INF/pages/system/userManager/userStatistics.jsp</result>
+			<result name="onlineUser">/WEB-INF/pages/system/userManager/onlineUser.jsp</result>
+			<result name="toIndex">/WEB-INF/pages/system/index.jsp</result>
+		</action>
+		
+		<!--用户角色管理-->
+		<action name="userRoleAction_*" class="UserRoleRelationAction"
+			method="{1}">
+		</action>
+		
+		<!--角色管理-->
+		<action name="roleManagerAction_*" class="RoleManagerAction"
+			method="{1}">
+			<result name="roleList">/WEB-INF/pages/system/roleManager/roleList.jsp</result>
+		</action>
+		
+		<!--角色、菜单关系-->
+		<action name="roleMenuAction_*" class="RoleMenuRelationAction"
+			method="{1}">
+			<result name="rolePermission">/WEB-INF/pages/system/roleManager/rolePermission.jsp</result>
+		</action>
+		
+		<!--菜单管理-->
+		<action name="menuManagerAction_*" class="MenuManagerAction"
+			method="{1}">
+			<result name="menuTable">/WEB-INF/pages/system/menuManager/menuTable.jsp</result>
+			<result name="menuTree">/WEB-INF/pages/system/menuManager/menuTree.jsp</result>
+			<result name="exportMenu" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="${#request.filename}.xls"</param>
+				<param name="bufferSize">1024</param>
+            </result>
+		</action>
+		
+		<!--权限管理-->
+		<action name="authManagerAction_*" class="AuthorizationManagerAction"
+			method="{1}">
+			<result name="authTable">/WEB-INF/pages/system/authManager/authTable.jsp</result>
+			<result name="authTree">/WEB-INF/pages/system/authManager/authTree.jsp</result>
+		</action>
+	</package>
+</struts>  

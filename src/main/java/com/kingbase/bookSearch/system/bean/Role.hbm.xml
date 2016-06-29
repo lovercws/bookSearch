@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.kingbase.bookSearch.system.bean.Role" table="tb_role">
+	 	<!-- 设置该持久化类的二级缓存并发访问策略 read-only read-write nonstrict-read-write transactional-->
+       	<cache usage="read-only"/>
+       	
+		<id name="id" type="java.lang.Integer" column="role_id">
+			<generator class="identity"></generator>
+		</id>
+		<property name="code" type="java.lang.String" column="role_code"></property>
+		<property name="name" type="java.lang.String" column="role_name"></property>
+		
+		<property name="remark" type="java.lang.String" column="role_remark"></property>
+		<property name="issystem" type="java.lang.Boolean" column="role_issystem"></property>
+		<property name="createDate" type="java.util.Date" column="menu_create_date"></property>
+		
+		<set name="users" table="tb_user_role" inverse="true" lazy="true">
+			<key>
+				<column name="role_id"></column>
+			</key>
+			<many-to-many class="com.kingbase.bookSearch.system.bean.User" column="user_id"/>
+		</set> 
+		
+		<set name="menus" table="tb_role_menu" inverse="true" lazy="true">
+			<key>
+				<column name="role_id"></column>
+			</key>
+			<many-to-many class="com.kingbase.bookSearch.system.bean.Menu" column="menu_id"/>
+		</set> 
+	</class>
+</hibernate-mapping>

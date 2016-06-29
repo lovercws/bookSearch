@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="book" namespace="/book" extends="struts-default">
+		<!--书籍上传管理业务 -->
+		<action name="uploadManagerAction_*" class="UploadManagerAction"
+			method="{1}">
+			<result name="uploadSetting">/WEB-INF/pages/book/uploadManager/uploadSetting.jsp</result>
+			<result name="uploadBook">/WEB-INF/pages/book/uploadManager/uploadBook.jsp</result>
+			<result name="uploadHistory">/WEB-INF/pages/book/uploadManager/uploadHistory.jsp</result>
+			<result name="uploadStatistics">/WEB-INF/pages/book/uploadManager/uploadStatistics.jsp</result>
+		</action>
+		
+		<!--书籍上传 -->
+		<action name="uploadAction_*" class="UploadAction"
+			method="{1}">
+			<result name="SUCCESS"></result>
+		</action>
+		
+		<!--书籍下载管理业务 -->
+		<action name="downloadManagerAction_*" class="DownloadManagerAction"
+			method="{1}">
+			<!-- 书籍下载 -->
+			<result name="download" type="stream">
+                <param name="contentDisposition">attachment;filename=${fileName}</param>
+                <param name="inputName">downloadFile</param>
+            </result>
+            
+            <!-- 书籍下载记录 -->
+            <result name="downloadHistory">/WEB-INF/pages/book/downloadManager/downloadHistory.jsp</result>
+            
+            <!-- 书籍下载统计 -->
+            <result name="downloadStatistics">/WEB-INF/pages/book/downloadManager/downloadStatistics.jsp</result>
+		</action>
+		
+		<!--书籍分类管理业务 -->
+		<action name="categoryManagerAction_*" class="CategoryManagerAction"
+			method="{1}">
+			<result name="categoryTable">/WEB-INF/pages/book/categoryManager/categoryTable.jsp</result>
+			<result name="categoryTree">/WEB-INF/pages/book/categoryManager/categoryTree.jsp</result>
+		</action>
+		
+		<!--书籍管理业务 -->
+		<action name="bookManagerAction_*" class="BookManagerAction"
+			method="{1}">
+			<result name="bookList">/WEB-INF/pages/book/bookManager/bookList.jsp</result>
+			<result name="bookClassify">/WEB-INF/pages/book/bookManager/bookClassify.jsp</result>
+			<result name="bookClassifyStatistics">/WEB-INF/pages/book/bookManager/bookClassifyStatistics.jsp</result>
+		</action>
+		
+		
+		<!--书籍收藏 -->
+		<action name="collectionManagerAction_*" class="CollectionManagerAction"
+			method="{1}">
+			<result name="collectionHistory">/WEB-INF/pages/book/collectionManager/collectionHistory.jsp</result>
+		</action>
+	</package>
+</struts>  

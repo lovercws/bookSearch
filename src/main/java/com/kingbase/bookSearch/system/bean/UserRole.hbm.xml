@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.kingbase.bookSearch.system.bean.UserRole" table="tb_user_role">
+		<composite-id>
+          <key-property name="userId" type="int">
+               <column name="user_id"/>
+           </key-property>
+           <key-property name="roleId" type="int">
+               <column name="role_id"/>
+           </key-property>
+        </composite-id>	
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,32 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{font-family:"微软雅黑";text-align:left;margin:0 auto;padding:0;background:#FFF;font-size:12px;color:#333;}
+body > div{text-align:left;margin-right:auto;margin-left:auto;} 
+div,form,input,ul,ol,li,span,p,dd,dt h1,h2,h3,h4,h5,h6,p{margin:0;padding:0;border:0;}
+h1,h2,h3,h4,h5,h6{ font-weight:none;}
+input,textarea{ outline:none;}
+img,a img{border:0;margin:0;padding:0;}
+em,i{font-style:normal;}
+a{outline-style:none;color:#333;text-decoration:none;}
+a:hover{color:#27a9e3;text-decoration:none;} 
+
+
+#login{ width:100%; height:auto; position:relative; z-index:1; min-height:760px; overflow:hidden;}
+.blur{ width:100%; height:425px; position:absolute; z-index:2; top:160px;text-align: center;color:#f4f9fc ; font-size:40px; font-family: "微软雅黑" ; font-weight: bold; }
+.center{ width:1200px; height:auto; margin:0 auto; }
+.landing{ width:594px; height:263px; background: rgba(0, 0, 0, 0) url(<%=request.getContextPath()%>/images/common/logininfo.png) no-repeat scroll 0 0; margin:auto; position:relative; margin-top:260px; z-index:3;  }
+
+.subland{ width:300px; height:auto; margin-left:270px; padding-top:70px; float:left; }
+p{ width:auto; height:30px; line-height:30px; font-size:14px; display:block; margin-bottom:15px;  }
+.na{ width:70px;}
+.bj1{ background: url(<%=request.getContextPath()%>/images/common/ren_14.png) no-repeat left;margin-left:10px;}
+.bj2{ background: url(<%=request.getContextPath()%>/images/common/suo_14.png) no-repeat left; margin-left:20px;}
+.bj3{ width:100px; border:solid 1px #8b9da9; background:#eaeaea;margin-left:10px; }
+.bj4{ width:39px; border:solid 1px #8b9da9;margin-left:6px; background: url(<%=request.getContextPath()%>/images/common/bj4.gif) no-repeat;  }
+input{ width:190px; height:30px; border: solid 1px #8b9da9; padding-left:42px; }
+span{ width:115px; height:37px; text-align:center; background: url(<%=request.getContextPath()%>/images/common/loginbutton1_11.gif) no-repeat center; display:block; line-height:37px;  color:#FFF; font-size:16px; float:left; margin-top:5px; margin-left:10px;    }
+span a{ width:115px; height:38px;line-height:38px;  background: url(<%=request.getContextPath()%>/images/common/loginbutton1_11.gif) no-repeat ; display:block;   }
+span a:hover{ width:115px; height:38px;line-height:38px; background: url(<%=request.getContextPath()%>/images/common/loginbutton2_12.gif) no-repeat; display:block; color:#000;      }
+em{width:117px; height:38px;  margin-top:10px; display:block; float:right; text-align:center; }
+.cop{ height:30px; line-height:30px; margin:auto; text-align:center; margin-top:50px; font-size:14px; color:#CCC;}

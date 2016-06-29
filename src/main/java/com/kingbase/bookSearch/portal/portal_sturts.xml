@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="portal" namespace="/portal" extends="struts-default">
+		<!--用户登录业务 -->
+		<action name="loginAction_*" class="LoginAction" method="{1}">
+			<result name="goLogin">/WEB-INF/pages/portal/user/login.jsp</result>
+			<result name="logout">/WEB-INF/pages/portal/index.jsp</result>
+			<result name="login">/WEB-INF/pages/system/index.jsp</result>
+		</action>
+
+		<!--布局业务 -->
+		<action name="layoutManagerAction_*" class="LayoutManagerAction" method="{1}">
+			<result name="getAllMenu">/WEB-INF/pages/system/menus.jsp</result>
+			<result name="header">/WEB-INF/pages/system/header.jsp</result>
+		</action>
+
+		<!--用户注册业务 -->
+		<action name="registryAction_*" class="RegistryAction" method="{1}">
+			<result name="goReg">/WEB-INF/pages/portal/user/register.jsp</result>
+			<result name="forgetPassword">/WEB-INF/pages/portal/user/forgetPassword.jsp</result>
+			<result name="register">/WEB-INF/pages/portal/user/login.jsp</result>
+			<result name="forward">/WEB-INF/pages/portal/user/forward.jsp</result>
+			<result name="resetPassword">/WEB-INF/pages/portal/user/resetPassword.jsp</result>
+		</action>
+
+		<!--二维码验证 -->
+		<action name="verifyCodeAction_*" class="VerifyCodeAction"
+			method="{1}">
+			
+		</action>
+
+		<!-- 搜索业务 -->
+		<action name="searchAction_*" class="SearchAction" method="{1}">
+			<result name="header">/WEB-INF/pages/portal/header.jsp</result>
+			<result name="main">/WEB-INF/pages/portal/main.jsp</result>
+			<result name="bottom">/WEB-INF/pages/portal/bottom.jsp</result>
+			<result name="search">/WEB-INF/pages/portal/search/search.jsp</result>
+			<result name="searchDetail">/WEB-INF/portal/search/searchDetail.jsp</result>
+		</action>
+	</package>
+</struts>  
