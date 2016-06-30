@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/themes/icon.css">
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 	function reload(obj){
 		obj.src="<%=request.getContextPath()%>/portal/verifyCodeAction_imageCode.do?type=registry&nocache="+new Date().getTime();
@@ -53,11 +54,11 @@
 	    </tr>
 	    <tr style="position: relative;margin-top: 20px">
 	       <td>密码:</td>
-	       <td><input name="password" value="${requestScope.user.password }" style="width:300px" class="easyui-validatebox" data-options="required:true"></td>
+	       <td><input type="password" name="password" value="${requestScope.user.password }" style="width:300px" class="easyui-validatebox" data-options="required:true"></td>
 	    </tr>
 	    <tr>
 	       <td>确认密码:</td>
-	       <td><input name="rePassword" value="${requestScope.user.password }" style="width:300px" class="easyui-validatebox" data-options="required:true"></td>
+	       <td><input  type="password" name="rePassword" value="${requestScope.user.password }" style="width:300px" class="easyui-validatebox" data-options="required:true"></td>
 	    </tr>
 	    <tr style="margin-top: 20px">
 	       <td>邮箱:</td>
@@ -67,7 +68,7 @@
 			<td>验证码：</td>
 			<td><input size="16" name="verifyCode" style="width:240px" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入验证码'"><img onclick="reload(this)" style="vertical-align:middle" src="<%=request.getContextPath()%>/portal/verifyCodeAction_imageCode.do?type=registry">&nbsp;</td>
 		</tr>	
-	    <tr style="margin-top: 20px">
+	    <tr style="margin-top: 10px">
 	       <td colspan="2" style="text-align: center;"><button type="submit" style="width: 120px;background-color: red;height: 30px;vertical-align: middle;" onclick="register()">注册</button></td>
 	    </tr>
 	    <tr>

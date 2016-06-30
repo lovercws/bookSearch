@@ -8,7 +8,7 @@
 		<action name="loginAction_*" class="LoginAction" method="{1}">
 			<result name="goLogin">/WEB-INF/pages/portal/user/login.jsp</result>
 			<result name="logout">/WEB-INF/pages/portal/index.jsp</result>
-			<result name="login">/WEB-INF/pages/system/index.jsp</result>
+			<result name="login" type="redirect">/system/userManagerAction_index.do</result>
 		</action>
 
 		<!--布局业务 -->

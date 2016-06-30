@@ -38,14 +38,14 @@
 	</filter-mapping>
 
 	<!-- 权限过滤器 -->
-	<filter>
+	<!-- <filter>
 		<filter-name>PermissionFilter</filter-name>
 		<filter-class>com.kingbase.bookSearch.auth.filter.PermissionFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>PermissionFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 
 	<!-- struts过滤器 -->
 	<filter>
@@ -106,11 +106,11 @@
 	<!-- 服务异常跳转页面 -->
 	<error-page>
 		<exception-type>java.lang.Throwable</exception-type>
-		<location>/WEB-INF/pages/exception/505.jsp</location>
+		<location>/505.jsp</location>
 	</error-page>
 	<error-page>
 		<error-code>404</error-code>
-		<location>/WEB-INF/pages/exception/404.htm</location>
+		<location>/404.htm</location>
 	</error-page>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

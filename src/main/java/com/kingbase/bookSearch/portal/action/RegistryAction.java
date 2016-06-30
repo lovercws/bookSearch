@@ -54,7 +54,7 @@ public class RegistryAction extends BaseAction<User> {
 			if(findUser!=null){
 				
 				//发送邮件
-				String host = HostUtil.getHost(request, "registryAction_resetPassword.do?id="+user.getId());
+				String host = HostUtil.getHost(request, "portal/registryAction_resetPassword.do?id="+user.getId());
 				mailService.sendSimpleMail(user.getEmail(), "验证邮箱", "<a href='"+host+"'>点击验证邮箱</a>");
 			    msg="邮件发送成功";
 			}else{
@@ -122,7 +122,7 @@ public class RegistryAction extends BaseAction<User> {
 				userService.saveOrUpdate(user);
 				
 				//发送激活账号email
-				String host = HostUtil.getHost(request, "registryAction_activeUser.do?email="+user.getEmail());
+				String host = HostUtil.getHost(request, "portal/registryAction_activeUser.do?email="+user.getEmail());
 				mailService.sendSimpleMail(user.getEmail(), "验证注册信息", "<a href='"+host+"'>点击激活邮箱</a>");
 				
 				msg="邮件发送成功,请激活用户";
@@ -146,6 +146,8 @@ public class RegistryAction extends BaseAction<User> {
 		log.info("用户激活-->>"+user);
 		user.setActive(true);
 		userService.avtiveUser(user);
+		
+		request.setAttribute("forwardMsg", "用户激活成功!");
 		return "forward";
 	}
 }

@@ -12,7 +12,7 @@
 			<result name="changePassword">/WEB-INF/pages/system/userManager/changePassword.jsp</result>
 			<result name="userStatistics">/WEB-INF/pages/system/userManager/userStatistics.jsp</result>
 			<result name="onlineUser">/WEB-INF/pages/system/userManager/onlineUser.jsp</result>
-			<result name="toIndex">/WEB-INF/pages/system/index.jsp</result>
+			<result name="index">/WEB-INF/pages/system/index.jsp</result>
 		</action>
 		
 		<!--用户角色管理-->

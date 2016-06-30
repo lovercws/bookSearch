@@ -19,11 +19,17 @@ body{
 }
 </style>
 <script type="text/javascript">
+$(document).ready(function(){
+	var menuComboTree="${requestScope.menuComboTree}";
+	$('#menuTree').treegrid('append',{
+		data: eval("("+menuComboTree+")")
+	});
+});
 </script>
 </head>
 <body>
 <table id="menuTree" class="easyui-treegrid" style="width:100%;height:100%;position: relative;"   
-        data-options="idField:'id',title:'菜单权限展示树',treeField:'title',animate:true,rownumbers: true,method:'POST',url:'<%=request.getContextPath()%>/system/authManagerAction_getAuthTree.do'">   
+        data-options="idField:'id',title:'菜单权限展示树',treeField:'title',animate:true,rownumbers: true,method:'POST'">   
     <thead>
 			<tr>
 				<th data-options="field:'id',hidden:true" style="width: 0%">权限主键</th>

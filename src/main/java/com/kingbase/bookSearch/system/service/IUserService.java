@@ -86,4 +86,16 @@ public interface IUserService {
 	 */
 	public void avtiveUser(User user);
 
+	/**
+	 * 获取注册量统计
+	 * @return
+	 */
+	public String getUserRegistoryStatistics();
+
+	/**
+	 * 获取访问量统计
+	 * @return
+	 */
+	public String getUserAccessStatistics();
+
 }

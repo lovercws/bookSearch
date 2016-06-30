@@ -125,12 +125,18 @@ $(document).ready(function(){
 	function reload(){
 		$('#menuTree').treegrid("load");
 	}
+	
+	//显示菜单树
+	var menuTree="${requestScope.menuComboTree}";
+	$('#menuTree').treegrid('append',{
+		data: eval("("+menuTree+")")
+	});
 });
 </script>
 </head>
 <body>
 <table id="menuTree" class="easyui-treegrid" style="width:100%;height:100%;position: relative;"   
-        data-options="title:'菜单树',idField:'id',treeField:'title',animate:true,rownumbers: true,method:'POST',url:'<%=request.getContextPath()%>/system/menuManagerAction_getMenuTree.do'">   
+        data-options="title:'菜单树',idField:'id',treeField:'title',animate:true,rownumbers: true">   
     <thead>   
         <tr>
 			<th data-options="field:'id',hidden:true" style="width: 0%">菜单主键</th>

@@ -161,6 +161,7 @@ public class User  implements Serializable{
 	 */
 	private String verifyCode;//验证码
 	private String newPassword;//新密码
+	private boolean rememberMe;//记住我
 
 	public String getVerifyCode() {
 		return verifyCode;
@@ -173,5 +174,11 @@ public class User  implements Serializable{
 	}
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
+	}
+	public boolean isRememberMe() {
+		return rememberMe;
+	}
+	public void setRememberMe(boolean rememberMe) {
+		this.rememberMe = rememberMe;
 	}
 }

@@ -162,6 +162,18 @@ public class UserManagerAction extends BaseAction<User>{
 	 * @return
 	 */
 	public String userStatistics(){
+		log.info("用户注册统计，访问你统计....................");
+
+		//获取用户注册量统计数据
+		String regStatistics=userService.getUserRegistoryStatistics();
+		log.info("注册统计数据-->>"+regStatistics);
+		request.setAttribute("regStatistics", regStatistics);
+		
+		//获取用户访问量统计数据
+		String accessStatistics=userService.getUserAccessStatistics();
+		log.info("访问量统计数据-->>"+accessStatistics);
+		request.setAttribute("accessStatistics", accessStatistics);
+		
 		return "userStatistics";
 	}
 	
@@ -196,7 +208,7 @@ public class UserManagerAction extends BaseAction<User>{
 	 * 进入到首页
 	 * @return
 	 */
-	public String toIndex(){
-		return "toIndex";
+	public String index(){
+		return "index";
 	}
 }

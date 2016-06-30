@@ -321,6 +321,14 @@
             <artifactId>pagehelper</artifactId>
             <version>4.1.6</version>
         </dependency>
+        
+        <!-- echarts图表 -->
+		<dependency>
+		    <groupId>com.github.abel533</groupId>
+		    <artifactId>ECharts</artifactId>
+		    <version>3.0.0.1</version>
+		</dependency>
+        
 
 	</dependencies>
 

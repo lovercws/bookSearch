@@ -23,6 +23,10 @@ import com.kingbase.bookSearch.system.service.IUserService;
 import com.kingbase.bookSearch.system.service.impl.UserRoleServiceImpl;
 import com.kingbase.bookSearch.system.service.impl.UserServiceImpl;
 
+/**
+ * 用户授权
+ * @author ganliang
+ */
 public class UserRealm extends AuthorizingRealm {
 
 	private static final Logger log = Logger.getLogger(UserRealm.class);
@@ -46,7 +50,10 @@ public class UserRealm extends AuthorizingRealm {
 				SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 				List<String> permissions = userRoleService.getRolePermissions(user.getId());
 				for (String permission : permissions) {
-					if(permission!=null&&!"".equals(permission)){
+					if (permission != null && !"".equals(permission)) {
+						if (!permission.startsWith("/")) {
+							permission = "/" + permission;
+						}
 						info.addStringPermission(permission);
 					}
 				}
@@ -69,12 +76,12 @@ public class UserRealm extends AuthorizingRealm {
 		char[] password = token.getPassword();
 		if (userName != null && !"".equals(userName)) {
 			User user = userService.getUserByName(userName);
-			if (user != null&&user.getPassword().equals(new String(password))) {
-				
-				//将当前用户信息缓存到session中
+			if (user != null && user.getPassword().equals(new String(password))) {
+
+				// 将当前用户信息缓存到session中
 				HttpSession session = ServletActionContext.getRequest().getSession();
 				session.setAttribute(User.SESSION_USER, user);
-				
+
 				return new SimpleAuthenticationInfo(user.getName(), user.getPassword(), getName());
 			}
 		}

@@ -93,6 +93,14 @@ public class AuthorizationManagerAction extends BaseAction<Menu>{
 	 * @return
 	 */
 	public String authTree(){
+		List<Menu> menus = menuService.getAll();
+		
+		MenuTree tree=new MenuTree();
+		List<Menu> treeNodes = tree.parser(menus);
+		String menuComboTree = gson.toJson(treeNodes);
+		log.info("菜单树-->"+menuComboTree);
+		
+		request.setAttribute("menuComboTree", menuComboTree.replace("\"", "'"));
 		return "authTree";
 	}
 	

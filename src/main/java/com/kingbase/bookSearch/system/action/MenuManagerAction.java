@@ -133,6 +133,15 @@ public class MenuManagerAction extends BaseAction<Menu>{
 	 * @return
 	 */
 	public String menuTree(){
+		List<Menu> menus = menuService.getAllMenu();
+		
+		MenuTree tree=new MenuTree();
+		List<Menu> treeNodes = tree.parser(menus);
+		String menuComboTree = gson.toJson(treeNodes);
+		menuComboTree=menuComboTree.replace(",\"children\":[]", "");		
+		log.info("菜单树-->"+menuComboTree);
+		
+		request.setAttribute("menuComboTree", menuComboTree.replace("\"", "'"));
 		return "menuTree";
 	}
 	

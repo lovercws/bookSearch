@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.kingbase.bookSearch.common.action.BaseAction;
-import com.kingbase.bookSearch.common.utils.MD5keyBean;
 import com.kingbase.bookSearch.core.email.SimpleMailService;
 import com.kingbase.bookSearch.system.bean.User;
 
@@ -43,16 +42,12 @@ public class LoginAction extends BaseAction<User> {
 		return "logout";
 	}
 
-	public String login2(){
-		return "login";
-	}
 	/**
 	 * 用户登录
 	 * @return 跳转到后台页面的首页
 	 */
 	public String login() {
 		log.info("登录-->"+user);
-		mailService.sendSimpleMail("915827225@qq.com", "爱你一万年", "知道我是谁个不！我是最爱你的人！哈哈哈.............. ");
 		String returnURL="goLogin";//登录失败跳转页面
 		
 		String verifyCode = user.getVerifyCode();//用户输入的验证码
@@ -67,7 +62,7 @@ public class LoginAction extends BaseAction<User> {
 				MD5keyBean m = new MD5keyBean();
 				password = m.getkeyBeanofStr(password);*/
 				
-				UsernamePasswordToken token=new UsernamePasswordToken(user.getName(), user.getPassword());
+				UsernamePasswordToken token=new UsernamePasswordToken(user.getName(), user.getPassword(),user.isRememberMe());
 				
 				Subject subject = SecurityUtils.getSubject();
 				subject.login(token);

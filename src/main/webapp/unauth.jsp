@@ -11,6 +11,11 @@ function closeMethod(){
 	opener.location.reload();
     window.close();
 }
+
+var topWin=window.top;
+if(topWin!=window){
+	topWin.location.href=window.location.href;
+}
 </script>
 <body>
 没有权限操作

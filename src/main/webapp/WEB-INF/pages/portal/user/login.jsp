@@ -101,6 +101,9 @@ a{
 							<img style="margin-left: 10px; position: absolute; top: 1px; left: 40%;" alt="验证码" onclick="reload(this)"
 								src="<%=request.getContextPath()%>/portal/verifyCodeAction_imageCode.do?type=login" width="75" height="35" />
 						</p>
+						<p style="margin-top: 30px">记&nbsp;住&nbsp;我&nbsp;: 
+							<input type="checkbox" width="50px" size="200" name="rememberMe" value="true" style="vertical-align: middle; height: 20px;margin-left: 18px" />
+						</p>
 						<p style="margin-top: 30px">
 							<span><a class="login" href="#" onClick="submit()">登录</a></span>
 							<span><a class="registory" href="<%=request.getContextPath()%>/portal/registryAction_goReg.do">注册</a></span>

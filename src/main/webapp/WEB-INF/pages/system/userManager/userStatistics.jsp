@@ -29,117 +29,17 @@ a{
 $(document).ready(function(){
 	var bodyWidth=document.body.clientWidth;
 	var bodyHeight=document.body.clientHeight;
-	
 	//注册统计图
 	var registryChart = echarts.init(document.getElementById('registryMain')); 
-	var registryOption = {
-		    title : {
-		        text: '近一周用户注册量'
-		    },
-		    tooltip : {
-		        trigger: 'axis'
-		    },
-		    legend: {
-		        data:['一周注册量']
-		    },
-		    toolbox: {
-		        show : true,
-		        feature : {
-		            mark : {show: true},
-		            dataView : {show: true, readOnly: false},
-		            magicType : {show: true, type: ['line', 'bar']},
-		            restore : {show: true},
-		            saveAsImage : {show: true}
-		        }
-		    },
-		    calculable : true,
-		    xAxis : [
-		        {
-		            type : 'category',
-		            boundaryGap : false,
-		            data : ['周一','周二','周三','周四','周五','周六','周日']
-		        }
-		    ],
-		    yAxis : [
-		        {
-		            type : 'value',
-		            axisLabel : {
-		                formatter: '{value}'
-		            }
-		        }
-		    ],
-		    series : [
-		        {
-		            name:'一周注册量',
-		            type:'line',
-		            data:[1, 2, 3, 4, 5, 6, 10],
-		            markPoint : {
-		                data : [
-		                    {type : 'max', name: '最大值'},
-		                    {type : 'min', name: '最小值'}
-		                ]
-		            }
-		        }
-		    ]
-	};
-	registryChart.setOption(registryOption); 
+	var regStatistics="${requestScope.regStatistics}";
+	registryChart.setOption(eval("("+regStatistics+")")); 
 	
 	//访问量统计图
 	document.getElementById("accessMain").style.width=bodyWidth+"px";
 	document.getElementById("accessMain").style.height=bodyHeight+"px";
-	
 	var accessChart = echarts.init(document.getElementById('accessMain')); 
-	var accessOption = {
-		    title : {
-		        text: '近一周用户访问量'
-		    },
-		    tooltip : {
-		        trigger: 'axis'
-		    },
-		    legend: {
-		        data:['一周访问量']
-		    },
-		    toolbox: {
-		        show : true,
-		        feature : {
-		            mark : {show: true},
-		            dataView : {show: true, readOnly: false},
-		            magicType : {show: true, type: ['line', 'bar']},
-		            restore : {show: true},
-		            saveAsImage : {show: true}
-		        }
-		    },
-		    calculable : true,
-		    xAxis : [
-		        {
-		            type : 'category',
-		            boundaryGap : false,
-		            data : ['周一','周二','周三','周四','周五','周六','周日']
-		        }
-		    ],
-		    yAxis : [
-		        {
-		            type : 'value',
-		            axisLabel : {
-		                formatter: '{value}'
-		            }
-		        }
-		    ],
-		    series : [
-		        {
-		            name:'一周访问量',
-		            type:'line',
-		            data:[1, 2, 3, 4, 5, 6, 10],
-		            markPoint : {
-		                data : [
-		                    {type : 'max', name: '最大值'},
-		                    {type : 'min', name: '最小值'}
-		                ]
-		            }
-		        }
-		    ]
-	};
-	accessChart.setOption(accessOption); 
+	var accessStatistics="${requestScope.accessStatistics}";
+	accessChart.setOption(eval("("+accessStatistics+")")); 
 });
 </script>
 </head>

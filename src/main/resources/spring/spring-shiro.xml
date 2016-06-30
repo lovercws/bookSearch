@@ -19,34 +19,34 @@
 
 	<!-- 凭证匹配器 -->
 	<bean id="credentialsMatcher"
-		  class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+		class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
 		<property name="hashAlgorithmName" value="md5" />
 		<property name="hashIterations" value="1" />
 	</bean>
-	
+
 	<!-- 用户认证 -->
 	<bean id="shiroRealm" class="com.kingbase.bookSearch.auth.realm.UserRealm">
 		<!-- 将凭证匹配器设置到realm中，realm按照凭证匹配器的要求进行散列 -->
 		<!-- <property name="credentialsMatcher" ref="credentialsMatcher"/> -->
 	</bean>
-	
+
 	<!-- shiro缓存管理器 -->
-	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">  
-	    <property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache-shiro.xml" />  
+	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache-shiro.xml" />
 	</bean>
-	
+
 	<!-- 自定义redisManager-redis -->
 	<bean id="redisCacheManager" class="com.kingbase.bookSearch.core.jedis.RedisCacheManager">
 		<property name="jedisClient" ref="jedisClient" />
 	</bean>
-	
+
 	<!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->
 	<bean id="sharesession" class="org.apache.shiro.web.servlet.SimpleCookie">
 		<!-- cookie的name,对应的默认是 JSESSIONID -->
 		<constructor-arg name="name" value="SHAREJSESSIONID" />
 		<!-- jsessionId的path为 / 用于多个系统共享jsessionId -->
 		<property name="path" value="/" />
-		<property name="httpOnly" value="true"/>
+		<property name="httpOnly" value="true" />
 	</bean>
 	<!-- session会话存储的实现类 -->
 	<bean id="redisShiroSessionDAO" class="com.kingbase.bookSearch.core.jedis.RedisSessionDAO">
@@ -55,7 +55,7 @@
 	<!-- sessionManager -->
 	<!-- session管理器 -->
 	<bean id="sessionManager"
-		  class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<!-- 设置全局会话超时时间，默认30分钟(1800000) -->
 		<property name="globalSessionTimeout" value="1800000" />
 		<!-- 是否在会话过期后会调用SessionDAO的delete方法删除会话 默认true -->
@@ -75,28 +75,46 @@
 	<!-- 安全管理器 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="shiroRealm" />
-		<!-- <property name="cacheManager" ref="shiroEhcacheManager"></property>  -->
+		<!-- <property name="cacheManager" ref="shiroEhcacheManager"></property> -->
 		<property name="cacheManager" ref="redisCacheManager" />
 		<!-- sessionManager -->
-		<property name="sessionManager" ref="sessionManager"/>
+		<property name="sessionManager" ref="sessionManager" />
+		<!--rememberMeManager-->		
+		<property name="rememberMeManager" ref="rememberMeManager"/>
 	</bean>
+
+	<!-- 自定义鉴权拦截器 -->
+	<bean id="RememberAuthenticationFilter" class="com.kingbase.bookSearch.auth.filter.RememberAuthenticationFilter" />
+	<bean id="UserPermissionsAuthorizationFilter" class="com.kingbase.bookSearch.auth.filter.UserPermissionsAuthorizationFilter" />
 
 	<!--shiro过滤器配置，bean的id值须与web中的filter-name的值相同 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<!-- 没有权限或者失败后跳转的页面 -->
-		<property name="loginUrl" value="/portal/loginAction_login.do" />
+		<property name="loginUrl" value="/portal/loginAction_goLogin.do" />
 		<!-- <property name="successUrl" value="/loginSuccess.jsp" /> -->
-		<property name="unauthorizedUrl" value="/WEB-INF/pages/exception/unauthorized.htm" />
+		<property name="unauthorizedUrl" value="/unauth.jsp" />
+		
+		<!-- 自定义过滤器 -->
+		<property name="filters">
+			<util:map>
+				<entry key="user" value-ref="RememberAuthenticationFilter" />
+				<entry key="perms" value-ref="UserPermissionsAuthorizationFilter" />
+			</util:map>
+		</property>
+		
+		<!-- 拦截 -->
 		<property name="filterChainDefinitions">
 			<value>
+				/portal/loginAction_goLogin.do=user
 				/portal/** = anon
-				/system/** = authc
-				/book/** = authc
+				/system/userManagerAction_index.do=authc
+				/system/** = authc,perms
+				/book/** = authc,perms
 			</value>
 		</property>
 	</bean>
-	
+
 	<!-- rememberMeManager管理器，写cookie，取出cookie生成用户信息 -->
 	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
 		<property name="cookie" ref="rememberMeCookie" />
@@ -108,11 +126,13 @@
 		<!-- 记住我cookie生效时间30天 -->
 		<property name="maxAge" value="2592000" />
 	</bean>
+
 	
 	<aop:config proxy-target-class="true"></aop:config>
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
-    </bean>
-    
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 </beans>    

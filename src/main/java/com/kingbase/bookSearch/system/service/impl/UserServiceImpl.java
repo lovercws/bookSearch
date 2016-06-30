@@ -2,13 +2,26 @@ package com.kingbase.bookSearch.system.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
 
+import com.github.abel533.echarts.Option;
+import com.github.abel533.echarts.Toolbox;
+import com.github.abel533.echarts.axis.Axis;
+import com.github.abel533.echarts.axis.AxisLabel;
+import com.github.abel533.echarts.axis.CategoryAxis;
+import com.github.abel533.echarts.axis.ValueAxis;
+import com.github.abel533.echarts.code.Trigger;
+import com.github.abel533.echarts.feature.Feature;
+import com.github.abel533.echarts.json.GsonUtil;
+import com.github.abel533.echarts.series.Line;
+import com.github.abel533.echarts.series.Series;
 import com.kingbase.bookSearch.core.excel.ExcelUtil;
 import com.kingbase.bookSearch.system.bean.User;
 import com.kingbase.bookSearch.system.dao.IUserDao;
@@ -151,4 +164,157 @@ public class UserServiceImpl implements IUserService{
 	public void avtiveUser(User user) {
 		userDao.updateUserActive(user.getEmail(), user.isActive());
 	}
+
+	@Override
+	public String getUserRegistoryStatistics() {
+		Option registryOption=new Option();
+		
+		registryOption.title().setText("近一周用户注册量");
+		
+		registryOption.tooltip().setTrigger(Trigger.axis);
+		
+		List<String> legendData=new ArrayList<String>();
+		legendData.add("一周注册量");
+		registryOption.legend().setData(legendData);
+		
+		//工具栏 
+		Toolbox toolbox = registryOption.toolbox();
+		//显示工具栏
+		toolbox.setShow(true);
+		
+		//添加工具栏特性
+		Map<String, Feature> featureMap=new HashMap<String,Feature>();
+		featureMap.put("mark", Feature.mark.show(true));
+		featureMap.put("dataView", Feature.dataView.show(true).readOnly(null));
+		featureMap.put("magicType", Feature.magicType.show(true).type(new String[]{"line", "bar"}));
+		featureMap.put("restore", Feature.restore.show(true));
+		featureMap.put("saveAsImage", Feature.saveAsImage.show(true));
+		toolbox.setFeature(featureMap);
+		
+		registryOption.setCalculable(true);
+		
+		//设置x轴
+		List<Axis> xAxis=new ArrayList<Axis>();
+		Axis<CategoryAxis> axis=new CategoryAxis();
+		axis.setBoundaryGap(false);
+		
+		//添加x轴 数据
+		List<String> axisData=new ArrayList<String>();
+		axisData.add("周一");
+		axisData.add("周二");
+		axisData.add("周三");
+		axisData.add("周四");
+		axisData.add("周五");
+		axisData.add("周六");
+		axisData.add("周七");
+		axis.setData(axisData);
+		
+		xAxis.add(axis);
+		registryOption.setxAxis(xAxis);
+		
+		//设置y轴
+		List<Axis> yAxis=new ArrayList<Axis>();
+		Axis yaxis=new ValueAxis();
+		yaxis.setAxisLabel(new AxisLabel().formatter("{value}"));
+		yAxis.add(yaxis);
+		registryOption.setyAxis(yAxis);
+		
+		//设置数据
+		List<Series> series=new ArrayList<Series>();
+		Line line=new Line();
+		line.setName("一周注册量");
+		List<String> seriesData=new ArrayList<String>();
+		seriesData.add("1");
+		seriesData.add("2");
+		seriesData.add("4");
+		seriesData.add("5");
+		seriesData.add("7");
+		seriesData.add("8");
+		seriesData.add("20");
+		line.setData(seriesData);
+		series.add(line);
+		
+		registryOption.setSeries(series);
+		
+		String registryOptionJson= GsonUtil.format(registryOption);
+		registryOptionJson=registryOptionJson.replace("\"", "'");
+		return registryOptionJson;
+	}
+
+	@Override
+	public String getUserAccessStatistics() {
+		Option registryOption=new Option();
+		
+		registryOption.title().setText("近一周用户访问量");
+		
+		registryOption.tooltip().setTrigger(Trigger.axis);
+		
+		List<String> legendData=new ArrayList<String>();
+		legendData.add("一周访问量");
+		registryOption.legend().setData(legendData);
+		
+		//工具栏 
+		Toolbox toolbox = registryOption.toolbox();
+		//显示工具栏
+		toolbox.setShow(true);
+		
+		//添加工具栏特性
+		Map<String, Feature> featureMap=new HashMap<String,Feature>();
+		featureMap.put("mark", Feature.mark.show(true));
+		featureMap.put("dataView", Feature.dataView.show(true).readOnly(null));
+		featureMap.put("magicType", Feature.magicType.show(true).type(new String[]{"line", "bar"}));
+		featureMap.put("restore", Feature.restore.show(true));
+		featureMap.put("saveAsImage", Feature.saveAsImage.show(true));
+		toolbox.setFeature(featureMap);
+		
+		registryOption.setCalculable(true);
+		
+		//设置x轴
+		List<Axis> xAxis=new ArrayList<Axis>();
+		Axis<CategoryAxis> axis=new CategoryAxis();
+		axis.setBoundaryGap(false);
+		
+		//添加x轴 数据
+		List<String> axisData=new ArrayList<String>();
+		axisData.add("周一");
+		axisData.add("周二");
+		axisData.add("周三");
+		axisData.add("周四");
+		axisData.add("周五");
+		axisData.add("周六");
+		axisData.add("周七");
+		axis.setData(axisData);
+		
+		xAxis.add(axis);
+		registryOption.setxAxis(xAxis);
+		
+		//设置y轴
+		List<Axis> yAxis=new ArrayList<Axis>();
+		Axis yaxis=new ValueAxis();
+		yaxis.setAxisLabel(new AxisLabel().formatter("{value}"));
+		yAxis.add(yaxis);
+		registryOption.setyAxis(yAxis);
+		
+		//设置数据
+		List<Series> series=new ArrayList<Series>();
+		Line line=new Line();
+		line.setName("一周访问量");
+		List<String> seriesData=new ArrayList<String>();
+		seriesData.add("13");
+		seriesData.add("25");
+		seriesData.add("41");
+		seriesData.add("57");
+		seriesData.add("70");
+		seriesData.add("23");
+		seriesData.add("244");
+		line.setData(seriesData);
+		series.add(line);
+		
+		registryOption.setSeries(series);
+		
+		String registryOptionJson= GsonUtil.format(registryOption);
+		registryOptionJson=registryOptionJson.replace("\"", "'");
+		return registryOptionJson;
+	}
+	
 }

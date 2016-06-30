@@ -57,9 +57,9 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 
         byte[] key = getByteKey(session.getId());
         byte[] value = SerializeUtils.serialize(session);
-        session.setTimeout(this.expire*1000);
+        session.setTimeout(expire*1000);
         try {
-            this.jedisClient.set(key, value, this.expire);
+            this.jedisClient.set(key, value, expire);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -67,6 +67,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 
     @Override
     public void delete(Session session) {
+    	logger.info("delete session "+session);
         if(session == null || session.getId() == null){
             logger.error("session or session id is null");
             return;
