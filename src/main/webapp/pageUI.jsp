@@ -1,10 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/My97DatePicker/WdatePicker.js"></script>
-		<script language="javascript" src="${pageContext.request.contextPath }/script/function.js"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath }/script/pub.js"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath }/script/validate.js"></script>
-   		<script type="text/javascript" src="${pageContext.request.contextPath }/script/page.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/script/page.js"></script>
 <tr>
       <td width="100%" height="1"  colspan="2">
         <table border="0" width="100%" cellspacing="0" cellpadding="0">
@@ -32,8 +28,6 @@
 		             <td width="6%" align="center">共<s:property value="%{#request.page.sumPage}"/>页</td>
 		             <td width="21%" align="right">至第<input size="1" type="text" name="goPage" >页
 		
-		
-		
 		             <u><a href="#" onClick="gotopage('elecUserAction_home.do','go')">确定</a></u></td>
 		             
 		             <td><input type="hidden" name="pageNO" value="${page.pageNo }" ></td> 
@@ -42,7 +36,6 @@
 		             <td><input type="hidden" name="sumPage" value="${page.sumPage }" ></td>
 	           </tr>
          </s:if>
-          
         </table>       
       </td>
     </tr> 

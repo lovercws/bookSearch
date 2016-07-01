@@ -15,19 +15,16 @@
         http://www.springframework.org/schema/util/spring-util-3.2.xsd
         http://www.springframework.org/schema/tx 
         http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
-
-
-	<!-- 凭证匹配器 -->
-	<bean id="credentialsMatcher"
-		class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-		<property name="hashAlgorithmName" value="md5" />
-		<property name="hashIterations" value="1" />
+	<!--自定义密码 凭证匹配器 -->
+	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.SimpleCredentialsMatcher">
+		<!-- <property name="hashAlgorithmName" value="md5" />
+		<property name="hashIterations" value="1" /> -->
 	</bean>
 
 	<!-- 用户认证 -->
 	<bean id="shiroRealm" class="com.kingbase.bookSearch.auth.realm.UserRealm">
 		<!-- 将凭证匹配器设置到realm中，realm按照凭证匹配器的要求进行散列 -->
-		<!-- <property name="credentialsMatcher" ref="credentialsMatcher"/> -->
+		<property name="credentialsMatcher" ref="credentialsMatcher"/>
 	</bean>
 
 	<!-- shiro缓存管理器 -->
@@ -51,8 +48,13 @@
 	<!-- session会话存储的实现类 -->
 	<bean id="redisShiroSessionDAO" class="com.kingbase.bookSearch.core.jedis.RedisSessionDAO">
 		<property name="jedisClient" ref="jedisClient" />
+		<property name="keyPrefix" value="shiro_redis_session"/>
+		<property name="expire" value="1800"/>
 	</bean>
-	<!-- sessionManager -->
+	
+	<!-- session监听器 -->
+	<bean id="UserSessionListener" class="com.kingbase.bookSearch.auth.listener.UserSessionListener"></bean>
+	
 	<!-- session管理器 -->
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
@@ -60,16 +62,29 @@
 		<property name="globalSessionTimeout" value="1800000" />
 		<!-- 是否在会话过期后会调用SessionDAO的delete方法删除会话 默认true -->
 		<property name="deleteInvalidSessions" value="true" />
-
 		<!-- 会话验证器调度时间 -->
 		<property name="sessionValidationInterval" value="1800000" />
-
 		<!-- session存储的实现 -->
 		<property name="sessionDAO" ref="redisShiroSessionDAO" />
 		<!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->
 		<property name="sessionIdCookie" ref="sharesession" />
 		<!-- 定时检查失效的session -->
 		<property name="sessionValidationSchedulerEnabled" value="true" />
+		<!-- 定义session监听器 -->
+		<!-- <property name="sessionListeners" ref="UserSessionListener"/> -->
+	</bean>
+	
+	
+	<!-- rememberMeManager管理器，写cookie，取出cookie生成用户信息 -->
+	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+		<property name="cookie" ref="rememberMeCookie" />
+	</bean>
+	<!-- 记住我cookie -->
+	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<!-- rememberMe是cookie的名字 -->
+		<constructor-arg value="rememberMe" />
+		<!-- 记住我cookie生效时间30天 -->
+		<property name="maxAge" value="2592000" />
 	</bean>
 
 	<!-- 安全管理器 -->
@@ -86,7 +101,12 @@
 	<!-- 自定义鉴权拦截器 -->
 	<bean id="RememberAuthenticationFilter" class="com.kingbase.bookSearch.auth.filter.RememberAuthenticationFilter" />
 	<bean id="UserPermissionsAuthorizationFilter" class="com.kingbase.bookSearch.auth.filter.UserPermissionsAuthorizationFilter" />
-
+	
+	<!-- 注销拦截器 -->
+	<bean id="logout" class="org.apache.shiro.web.filter.authc.LogoutFilter"> 
+        <property name="redirectUrl" value="/portal/loginAction_goLogin.do" /> 
+    </bean>
+    
 	<!--shiro过滤器配置，bean的id值须与web中的filter-name的值相同 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
@@ -106,27 +126,16 @@
 		<!-- 拦截 -->
 		<property name="filterChainDefinitions">
 			<value>
+				/index.jsp=anon,user
 				/portal/loginAction_goLogin.do=user
-				/portal/** = anon
+				/portal/loginAction_logout.do=logout
+				/portal/** = anon,user
 				/system/userManagerAction_index.do=authc
 				/system/** = authc,perms
 				/book/** = authc,perms
 			</value>
 		</property>
 	</bean>
-
-	<!-- rememberMeManager管理器，写cookie，取出cookie生成用户信息 -->
-	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
-		<property name="cookie" ref="rememberMeCookie" />
-	</bean>
-	<!-- 记住我cookie -->
-	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-		<!-- rememberMe是cookie的名字 -->
-		<constructor-arg value="rememberMe" />
-		<!-- 记住我cookie生效时间30天 -->
-		<property name="maxAge" value="2592000" />
-	</bean>
-
 	
 	<aop:config proxy-target-class="true"></aop:config>
 	<bean

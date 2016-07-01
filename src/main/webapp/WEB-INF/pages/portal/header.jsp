@@ -33,7 +33,7 @@ function changeLocation(url){
 <body>
 <div style="margin-left: 80%;margin-top: 8px">
 	<s:if test="#session.user!=null">
-		<a style="margin-left: 30px" onclick='changeLocation("<%=request.getContextPath()%>/system/userManagerAction_toIndex.do")'>欢迎 ${user.name}</a>
+		<a style="margin-left: 30px" onclick='changeLocation("<%=request.getContextPath()%>/system/userManagerAction_index.do")'>欢迎 ${user.name}</a>
 		<a style="margin-left: 30px" onclick='changeLocation("<%=request.getContextPath()%>/portal/loginAction_logout.do")'>注销</a>
 		<a style="margin-left: 30px" onclick='changeLocation("<%=request.getContextPath()%>/index.jsp")'>返回首页</a>
 	</s:if>

@@ -317,14 +317,22 @@ public class MD5keyBean {
 		return s;
 	}
 
+	public static String Md5(String parameter){
+		if(parameter==null){
+			throw new IllegalArgumentException();
+		}
+		MD5keyBean m = new MD5keyBean();
+		String md5 = m.getkeyBeanofStr(parameter);
+		return md5;
+	}
+	
 	/**
 	 * 测试类
-	 * 
 	 * @param args
 	 */
 	public static void main(String args[]) {
 		MD5keyBean m = new MD5keyBean();
-		String md5 = m.getkeyBeanofStr("123");
+		String md5 = m.getkeyBeanofStr("123456");
 		System.out.println(md5);
 
 	}

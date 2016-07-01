@@ -21,6 +21,8 @@ public interface IHibernateDao<T>{
     public int bulkUpdate(String queryString, Object[] values);
 
     public <E> void deleteAll(Collection<E> entities);
+    
+    public <E> void deleteAll();
 
     public List<?> find(String queryString, Object[] values);
 

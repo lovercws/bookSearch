@@ -86,6 +86,7 @@
 				<value>com/kingbase/bookSearch/system/bean/RoleMenu.hbm.xml</value>
 				<value>com/kingbase/bookSearch/system/bean/User.hbm.xml</value>
 				<value>com/kingbase/bookSearch/system/bean/UserRole.hbm.xml</value>
+				<value>com/kingbase/bookSearch/ddl/bean/SexDDL.hbm.xml</value>
 			</list>
 		</property>
 		

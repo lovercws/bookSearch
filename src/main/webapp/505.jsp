@@ -38,7 +38,7 @@
                   <tr>
                     <td width="50" align="right"><font color="#006699">2、</font></td>
                     <td>
-                      <font color="#006699">[<a href="<%=request.getContextPath()%>" target="_parent">尝试</a>] 重新登录 </font>
+                      <font color="#006699">[<a href="<%=request.getContextPath()%>/portal/loginAction_goLogin.do" target="_parent">尝试</a>] 重新登录 </font>
                     </td>
                   </tr>
                   <tr>
@@ -61,7 +61,7 @@
             <tr>
               <td width="15%" align="right">错误信息:</td>
               <td width="85%" style="color:#FF0000">
-              <%=exception.getMessage()!=null ? exception.getMessage() : request.getAttribute("_CommandExecuteException_")%>
+              <%=exception!=null?exception.getMessage()!=null ? exception.getMessage() : request.getAttribute("_CommandExecuteException_"):null%>
               </td>
             </tr>
             <tr>
@@ -71,7 +71,7 @@
             <tr id="trCause">
               <td colspan="2" align="right" valign="top">
               <textarea name="textarea" rows="15" style="color:#FF0000;width:100%">
-              	<%=exception.getLocalizedMessage()%>
+              	<%=exception!=null?exception.getLocalizedMessage():null%>
               </textarea>
               </td>
             </tr>

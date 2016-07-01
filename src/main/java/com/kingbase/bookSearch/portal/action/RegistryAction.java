@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 
 import com.kingbase.bookSearch.common.action.BaseAction;
 import com.kingbase.bookSearch.common.utils.HostUtil;
+import com.kingbase.bookSearch.common.utils.MD5keyBean;
 import com.kingbase.bookSearch.core.email.SimpleMailService;
 import com.kingbase.bookSearch.system.bean.User;
 import com.kingbase.bookSearch.system.service.IUserService;
@@ -83,7 +84,7 @@ public class RegistryAction extends BaseAction<User> {
 	 * @throws IOException
 	 */
 	public String changePwd() throws IOException {
-		user.setPassword(user.getNewPassword());
+		user.setPassword(MD5keyBean.Md5(user.getNewPassword()));
 		log.info("修改用户密码-->>"+user);
 		
 		userService.updateUserPassword(user);
@@ -117,6 +118,7 @@ public class RegistryAction extends BaseAction<User> {
 				user.setRegistryDate(new Date());
 				user.setActive(false);
 				user.setId(0);
+				user.setPassword(MD5keyBean.Md5(user.getPassword()));
 				
 				//保存用户
 				userService.saveOrUpdate(user);

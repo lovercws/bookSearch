@@ -3,9 +3,9 @@ package com.kingbase.bookSearch.auth.realm;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -15,7 +15,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.struts2.ServletActionContext;
+import org.apache.shiro.subject.Subject;
 
 import com.kingbase.bookSearch.system.bean.User;
 import com.kingbase.bookSearch.system.service.IUserRoleService;
@@ -25,6 +25,7 @@ import com.kingbase.bookSearch.system.service.impl.UserServiceImpl;
 
 /**
  * 用户授权
+ * 
  * @author ganliang
  */
 public class UserRealm extends AuthorizingRealm {
@@ -48,6 +49,8 @@ public class UserRealm extends AuthorizingRealm {
 			User user = userService.getUserByName(userName);
 			if (user != null) {
 				SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+
+				// 获取用户权限集合
 				List<String> permissions = userRoleService.getRolePermissions(user.getId());
 				for (String permission : permissions) {
 					if (permission != null && !"".equals(permission)) {
@@ -70,17 +73,18 @@ public class UserRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)
 			throws AuthenticationException {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-		log.info("authc name:" + token.getUsername());
+		log.info("auth登录-->>" + token.toString());
 		// 获取用户名称
 		String userName = token.getUsername();
 		char[] password = token.getPassword();
 		if (userName != null && !"".equals(userName)) {
+			// 获取用户
 			User user = userService.getUserByName(userName);
+			// 验证密码是否正确
 			if (user != null && user.getPassword().equals(new String(password))) {
-
-				// 将当前用户信息缓存到session中
-				HttpSession session = ServletActionContext.getRequest().getSession();
-				session.setAttribute(User.SESSION_USER, user);
+				// 将用户信息保存到session中
+				Subject subject = SecurityUtils.getSubject();
+				subject.getSession(true).setAttribute(User.SESSION_USER, user);
 
 				return new SimpleAuthenticationInfo(user.getName(), user.getPassword(), getName());
 			}

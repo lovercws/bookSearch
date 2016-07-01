@@ -7,7 +7,7 @@
 <hibernate-mapping>
     <class name="com.kingbase.bookSearch.system.bean.Menu" table="tb_menu" >
     	<!-- 设置该持久化类的二级缓存并发访问策略 read-only read-write nonstrict-read-write transactional-->
-       	<cache usage="read-only"/>
+       	<cache usage="read-write"/>
        	
         <id name="id" type="java.lang.Integer">
             <column name="menu_id" />

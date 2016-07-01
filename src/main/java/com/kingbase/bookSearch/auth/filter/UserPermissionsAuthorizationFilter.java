@@ -7,6 +7,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 
 /**
@@ -21,8 +22,15 @@ public class UserPermissionsAuthorizationFilter extends PermissionsAuthorization
 	public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
 			throws IOException {
 		String[] permissions = getPermissions(request);
-		log.info("请求权限........................" + permissions[0]);
+		log.info("请求权限-->>" + permissions[0]);
 
+		//管理员拥有一切权限
+		Subject subject = getSubject(request, response);
+		Object principal = subject.getPrincipal();
+		if(principal!=null&&"admin".equals(String.valueOf(principal))){
+			return true;
+		}
+		
 		return super.isAccessAllowed(request, response, permissions);
 	}
 

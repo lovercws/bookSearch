@@ -23,4 +23,5 @@
 	<include file="com/kingbase/bookSearch/portal/portal_sturts.xml"></include>
 	<include file="com/kingbase/bookSearch/book/book_sturts.xml"></include>
 	<include file="com/kingbase/bookSearch/system/system_sturts.xml"></include>
+	<include file="com/kingbase/bookSearch/ddl/ddl_sturts.xml"></include>
 </struts>  

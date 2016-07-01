@@ -3,11 +3,10 @@ package com.kingbase.bookSearch.core.jedis;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.cache.CacheManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -15,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class RedisCacheManager implements CacheManager {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(RedisCacheManager.class);
+    private static final Logger logger = Logger.getLogger(RedisCacheManager.class);
 
     @Autowired
     private JedisClient jedisClient;

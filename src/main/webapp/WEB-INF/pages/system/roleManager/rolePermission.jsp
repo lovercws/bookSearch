@@ -57,7 +57,7 @@ function allocateAuth(){
 		data: 'roleId='+roleId+'&menuIds='+menuIds,
 		success: function(html){
 			
-			alert('权限分配成功');    
+			$.messager.alert('提示','权限分配成功');    
 			window.close();
 		}
 	});

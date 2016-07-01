@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.kingbase.bookSearch.common.action.BaseAction;
+import com.kingbase.bookSearch.common.utils.MD5keyBean;
 import com.kingbase.bookSearch.core.email.SimpleMailService;
 import com.kingbase.bookSearch.system.bean.User;
 
@@ -57,14 +58,12 @@ public class LoginAction extends BaseAction<User> {
 			if(verifyCode==null||!verifyCode.equals(sessionVerifyCode)){
 				request.setAttribute("errorMsg", "验证码输入错误!");
 			}else{
+				user.setPassword(MD5keyBean.Md5(user.getPassword()));
 				//密码加密
-				/*String password = user.getPassword();
-				MD5keyBean m = new MD5keyBean();
-				password = m.getkeyBeanofStr(password);*/
-				
 				UsernamePasswordToken token=new UsernamePasswordToken(user.getName(), user.getPassword(),user.isRememberMe());
 				
 				Subject subject = SecurityUtils.getSubject();
+				
 				subject.login(token);
 				
 				//登录验证通过

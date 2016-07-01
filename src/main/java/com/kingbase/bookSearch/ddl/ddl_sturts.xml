@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="ddl" namespace="/ddl" extends="struts-default">
+		<!--书籍上传管理业务 -->
+		<action name="sexDDLManagerAction_*" class="SexDDLManagerAction"
+			method="{1}">
+			<result name="table">/WEB-INF/pages/ddl/sex.jsp</result>
+		</action>
+	</package>
+</struts>  

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kingbase.bookSearch.common.action.BaseAction;
+import com.kingbase.bookSearch.common.utils.MD5keyBean;
 import com.kingbase.bookSearch.system.bean.User;
 import com.kingbase.bookSearch.system.service.IUserService;
 import com.kingbase.bookSearch.system.service.impl.UserServiceImpl;
@@ -90,7 +91,7 @@ public class UserManagerAction extends BaseAction<User>{
 	 */
 	public String initPassword(){
 		log.info("初始化密码-->"+user);
-		user.setPassword(User.INIT_PASSWORD);
+		user.setPassword(MD5keyBean.Md5(User.INIT_PASSWORD));
 		userService.updateUserPassword(user);
 		return userList();
 	}
@@ -146,8 +147,11 @@ public class UserManagerAction extends BaseAction<User>{
 		log.info("修改密码-->"+user);
 		User sessionUser = (User) request.getSession().getAttribute(User.SESSION_USER);
 		boolean success=false;
-		if(sessionUser.getPassword().equals(user.getPassword())){
-			sessionUser.setPassword(user.getNewPassword());
+		
+		//获取md5加密密码
+		String md5Password=MD5keyBean.Md5(user.getPassword());
+		if(sessionUser.getPassword().equals(md5Password)){
+			sessionUser.setPassword(md5Password);
 			userService.updateUserPassword(sessionUser);
 			success=true;
 			

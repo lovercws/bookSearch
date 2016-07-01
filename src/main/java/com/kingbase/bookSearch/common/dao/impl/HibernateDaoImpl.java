@@ -88,6 +88,17 @@ public class HibernateDaoImpl<T> extends HibernateDaoSupport implements IHiberna
 		getHibernateTemplate().delete(entity);
 	}
 	
+	public <E> void deleteAll() {
+		getHibernateTemplate().execute(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+				Query query = session.createQuery("DELETE FROM "+entityClass.getSimpleName());
+				query.executeUpdate();
+				return null;
+			}
+		});
+	}
+	
 	public <E> boolean exist(Serializable id) {
 		if (get(id) != null)
 			return true;

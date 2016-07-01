@@ -75,6 +75,11 @@
 		<listener-class>com.kingbase.bookSearch.core.script.SQLScriptRunnerListener</listener-class>
 	</listener>
 
+	<!-- RedisCacheFlushListener -->
+	<listener>
+		<listener-class>com.kingbase.bookSearch.auth.listener.RedisCacheFlushListener</listener-class>
+	</listener>
+
 	<!-- 过滤器 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>

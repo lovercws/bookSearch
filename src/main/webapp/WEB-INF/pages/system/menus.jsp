@@ -17,6 +17,12 @@ body{
    height: 100%;
    position: absolute;
 }
+#bodyStyle{
+   background-image: url(<%=request.getContextPath()%>/images/common/light.png); 
+   background-repeat: no-repeat; 
+   background-position: center top; 
+   overflow: hidden;
+}
 </style>
 <script type="text/javascript">
 var menuData='${requestScope.menuData}';
@@ -34,6 +40,7 @@ $(document).ready(function(){
 			title: managerBar.text,
 			selected: selected,
 			iconCls:'icon-save',
+			bodyCls:'bodyStyle',
 			content:"<ul id="+managerBar.id+" class='easyui-tree' data-options=''></ul>"
 		});
 		$("#"+managerBar.id).tree({

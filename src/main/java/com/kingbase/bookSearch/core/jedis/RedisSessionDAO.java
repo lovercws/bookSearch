@@ -5,43 +5,22 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kingbase.bookSearch.common.utils.SerializeUtils;
 
 public class RedisSessionDAO extends AbstractSessionDAO {
 
-    private static Logger logger = LoggerFactory.getLogger(RedisSessionDAO.class);
-    /**
-     * shiro-redis的session对象前缀
-     */
-
-    private String keyPrefix = "lovecws_shiro_redis_session:";
-
-    /**
-     * 设置缓存永不过期
-     */
-    private static int expire = 0;
-
-    @Autowired
-    private JedisClient jedisClient;
-
-    public JedisClient getJedisClient() {
-        return jedisClient;
-    }
-
-    public void setJedisClient(JedisClient jedisClient) {
-        this.jedisClient = jedisClient;
-    }
+    private static Logger logger = Logger.getLogger(RedisSessionDAO.class);
 
     @Override
     public void update(Session session) throws UnknownSessionException {
-        this.saveSession(session);
+    	logger.info("update session "+session.toString());
+    	this.saveSession(session);
     }
 
     /**
@@ -54,7 +33,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
             logger.error("session or session id is null");
             return;
         }
-
+        
         byte[] key = getByteKey(session.getId());
         byte[] value = SerializeUtils.serialize(session);
         session.setTimeout(expire*1000);
@@ -67,7 +46,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 
     @Override
     public void delete(Session session) {
-    	logger.info("delete session "+session);
+    	logger.info("delete session "+session.toString());
         if(session == null || session.getId() == null){
             logger.error("session or session id is null");
             return;
@@ -97,6 +76,8 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 
     @Override
     protected Serializable doCreate(Session session) {
+    	logger.info("save session "+session.toString());
+    	
         Serializable sessionId = this.generateSessionId(session);
         this.assignSessionId(session, sessionId);
         this.saveSession(session);
@@ -132,7 +113,27 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     }
 
 
+    /**
+     * 默认shiro-redis的session对象前缀
+     */
 
+    private String keyPrefix = "lovecws_shiro_redis_session:";
+
+    /**
+     * 默认设置缓存永不过期
+     */
+    private int expire = 0;
+
+    @Autowired
+    private JedisClient jedisClient;
+
+    public JedisClient getJedisClient() {
+        return jedisClient;
+    }
+
+    public void setJedisClient(JedisClient jedisClient) {
+        this.jedisClient = jedisClient;
+    }
     /**
      * Returns the Redis session keys
      * prefix.
@@ -150,4 +151,12 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     public void setKeyPrefix(String keyPrefix) {
         this.keyPrefix = keyPrefix;
     }
+
+	public int getExpire() {
+		return expire;
+	}
+
+	public void setExpire(int expire) {
+		this.expire = expire;
+	}
 }
