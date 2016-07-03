@@ -8,6 +8,7 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ztree.core.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ztree.excheck.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.easyui.min.js"></script>
 <title>Insert title here</title>
 <script type="text/javascript">
 var permissionMenus="${requestScope.permissionMenus}";

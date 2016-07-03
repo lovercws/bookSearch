@@ -316,5 +316,14 @@ public class UserServiceImpl implements IUserService{
 		registryOptionJson=registryOptionJson.replace("\"", "'");
 		return registryOptionJson;
 	}
+
+	@Override
+	public List<User> findAllUser() {
+		List<User> list = userDao.findAll();
+		for (User user : list) {
+			user.setRoles(null);
+		}
+		return list;
+	}
 	
 }

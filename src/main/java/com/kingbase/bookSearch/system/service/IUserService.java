@@ -98,4 +98,10 @@ public interface IUserService {
 	 */
 	public String getUserAccessStatistics();
 
+	/**
+	 * 找到所有的用户
+	 * @return
+	 */
+	public List<User> findAllUser();
+
 }
