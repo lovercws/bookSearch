@@ -16,27 +16,32 @@
         http://www.springframework.org/schema/tx 
         http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
-	<!-- 实现jobDetail -->
-	<bean id="JobDetailBean" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-		<property name="name" value="exampleJob"></property>
-		<property name="jobClass" value="com.kingbase.bookSearch.core.quartz.SpringQtz"></property>
+	<!-- mysql数据库定时备份-->
+	<!-- jobDetail -->
+	<bean id="JDBCBackupQuartzJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="name" value="JDBCBackupQuartzJob"></property>
+		<property name="jobClass" value="com.kingbase.bookSearch.core.quartz.job.JDBCBackupQuartzJob"></property>
 		<property name="durability" value="true" />
 		<property name="jobDataAsMap">
 			<map>
-				<entry key="service">
-					<value>simple is the beat</value>
-				</entry>
+				<entry key="username" value="${mysql.username}"/>
+				<entry key="password" value="${mysql.password}"/>
+				<entry key="database" value="${database}"/>
+				<entry key="host" value="${host}"/>
+				<entry key="port" value="${port}"/>
+				<entry key="backupPath" value="${backupPath}"/>
+				<entry key="binPath" value="${binPath}"/>
 			</map>
 		</property>
 	</bean>
-	<!-- 调度的配置开始 -->
-	<bean id="JobDetailCronTrigger"
+	<!-- trigger定时器 -->
+	<bean id="JDBCBackupCronTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail">
-			<ref bean="JobDetailBean"/>
+			<ref bean="JDBCBackupQuartzJob"/>
 		</property>
 		<property name="cronExpression">
-			<value>0/20 * * * * ?</value>
+			<value>00 30 * * * ?</value>
 		</property>
 	</bean>
 
@@ -60,17 +65,16 @@
 			<ref bean="MorningEmailJobDetail" />
 		</property>
 		<property name="cronExpression">
-			<value>* 38/300 * * * ?</value>
+			<value>00 05 * * * ?</value>
 		</property>
 	</bean>
-
-
+	
 	<!-- 启动触发器的配置开始 -->
 	<bean name="startQuertz" lazy-init="false" autowire="no"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="JobDetailCronTrigger" />
+				<ref bean="JDBCBackupCronTrigger" />
 				<ref bean="MorningEmailJobTrigger" />
 			</list>
 		</property>

@@ -340,6 +340,13 @@
 		    <artifactId>quartz-jobs</artifactId>
 		    <version>2.2.1</version>
 		</dependency>  
+		
+		<!-- zookeeper -->
+		<dependency>
+		    <groupId>org.apache.zookeeper</groupId>
+		    <artifactId>zookeeper</artifactId>
+		    <version>3.4.6</version>
+		</dependency> 
         
 
 	</dependencies>
