@@ -9,11 +9,11 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ztree.core.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ztree.excheck.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.easyui.min.js"></script>
-<title>Insert title here</title>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.progressbar.js"></script>
+<title>角色分配权限</title>
 <script type="text/javascript">
 var permissionMenus="${requestScope.permissionMenus}";
 var data=eval("("+permissionMenus+")");
-console.log(data);
 //树的配置信息
 var setting = {
 	data: {
@@ -28,12 +28,12 @@ var setting = {
 	check:{
 		enable : true,
 		chkStyle: "checkbox"
-	},
-	
+	}
 };
 
 $(document).ready(function(){
 	$.fn.zTree.init($("#menuTree"), setting, data);
+	$('#processBarWin').window('close'); 
 });
 
 function allocateAuth(){
@@ -42,7 +42,6 @@ function allocateAuth(){
 	
 	var menuIds=null;
 	var roleId='${param.roleId}';
-	console.log('roleId-->'+roleId);
 	for(var i=0,len=nodes.length;i<len;i++){
 		if(menuIds==null){
 			menuIds=nodes[i].id;

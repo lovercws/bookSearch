@@ -102,6 +102,19 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<!-- cxf webservice -->
+	<servlet>  
+        <description>Apache CXF Endpoint</description>  
+        <display-name>cxf</display-name>  
+        <servlet-name>cxf</servlet-name>  
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>  
+        <load-on-startup>1</load-on-startup>  
+    </servlet>  
+    <servlet-mapping>  
+        <servlet-name>cxf</servlet-name>  
+        <url-pattern>/service/*</url-pattern>  
+    </servlet-mapping>  
 
 	<session-config>
 		<session-timeout>30</session-timeout>
