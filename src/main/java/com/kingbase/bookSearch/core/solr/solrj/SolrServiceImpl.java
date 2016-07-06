@@ -9,15 +9,12 @@ import org.apache.poi.ss.formula.functions.T;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.beans.DocumentObjectBinder;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.kingbase.bookSearch.core.solr.beans.PageInfoFacet;
-
-import junit.framework.Assert;
 
 /**
  * @author ganliang
@@ -92,19 +89,18 @@ abstract class SolrServiceImpl implements SolrService {
 			rowBounds = new RowBounds(start, rows);
 		}
 		QueryResponse response = client.query(query);
-		SolrDocumentList documentList = response.getResults();
-		List content = new DocumentObjectBinder().getBeans(clazz, documentList);
-		// Page page=new Page(rowBounds.getOffset(),rowBounds.getLimit(),
-		// (int)documentList.getNumFound());
-		Page page = (Page) content;
+		List<T> beans = response.getBeans(clazz);
+		
+		Page<T> page = (Page<T>) beans;
 		page.setPageNum(rowBounds.getOffset());
 		page.setPageSize(rowBounds.getLimit());
-		page.setTotal(documentList.getNumFound());
+		page.setTotal(page.getTotal());
 
 		PageInfo<T> pageInfo = new PageInfo<T>(page);
 		return pageInfo;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public PageInfo<T> query(SolrQuery query, RowBounds rowBounds) throws IOException, SolrServerException {
 		SolrClient client = this.getHttpSolrClient();
@@ -121,7 +117,7 @@ abstract class SolrServiceImpl implements SolrService {
 		}
 		QueryResponse response = client.query(query);
 		SolrDocumentList documentList = response.getResults();
-		List list = (List) documentList;
+		List<T> list = (List) documentList;
 		Page page = new Page(rowBounds.getOffset(), rowBounds.getLimit());
 		page.setTotal(documentList.getNumFound());
 		page.addAll(list);
@@ -129,6 +125,7 @@ abstract class SolrServiceImpl implements SolrService {
 		return pageInfo;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public PageInfoFacet<T> queryFacet(SolrQuery query, RowBounds rowBounds) throws IOException, SolrServerException {
 		SolrClient client = this.getHttpSolrClient();

@@ -14,7 +14,7 @@ public class Demo {
 	
 	public static void main(String[] args) {
 		try {
-			HttpSolrClient solrClient = new HttpSolrClient("http://192.168.8.144:8983/solr/core1");
+			HttpSolrClient solrClient = new HttpSolrClient("http://192.168.92.135:8983/solr/core1");
 			System.out.println(solrClient);
 
 			Book book = new Book(1, 200, 560, 20, "lucene权威指南", "甘亮", "lucene", "数据检索工具集", "  ass", new Date());

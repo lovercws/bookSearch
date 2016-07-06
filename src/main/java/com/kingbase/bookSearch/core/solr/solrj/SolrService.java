@@ -30,8 +30,7 @@ public interface SolrService {
 	/**
 	 * 增加单个实体
 	 * 
-	 * @param bean
-	 *            实体
+	 * @param bean 实体
 	 * @throws IOException
 	 * @throws SolrServerException
 	 */
@@ -112,8 +111,8 @@ public interface SolrService {
 
 	/**
 	 * 分页查询
-	 * @param query
-	 * @param rowBounds
+	 * @param query solrQuery 查询
+	 * @param rowBounds 
 	 * @return
 	 * @throws IOException
 	 * @throws SolrServerException
