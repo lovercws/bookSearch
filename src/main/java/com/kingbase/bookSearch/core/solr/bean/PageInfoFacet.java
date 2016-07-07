@@ -1,4 +1,4 @@
-package com.kingbase.bookSearch.core.solr.beans;
+package com.kingbase.bookSearch.core.solr.bean;
 
 import java.util.List;
 

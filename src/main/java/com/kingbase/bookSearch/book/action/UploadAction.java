@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kingbase.bookSearch.book.bean.FileUpload;
 import com.kingbase.bookSearch.common.action.BaseAction;
+import com.kingbase.bookSearch.common.bean.FileUpload;
 
 @Scope("prototype")
 @Controller("UploadAction")

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.kingbase.bookSearch.book.bean.FileUpload;
+import com.kingbase.bookSearch.common.bean.FileUpload;
 
 /**
  * 菜单

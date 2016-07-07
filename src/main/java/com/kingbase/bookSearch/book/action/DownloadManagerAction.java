@@ -3,8 +3,8 @@ package com.kingbase.bookSearch.book.action;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.kingbase.bookSearch.book.bean.FileDownload;
 import com.kingbase.bookSearch.common.action.BaseAction;
+import com.kingbase.bookSearch.common.bean.FileDownload;
 
 @Scope("prototype")
 @Controller("DownloadManagerAction")

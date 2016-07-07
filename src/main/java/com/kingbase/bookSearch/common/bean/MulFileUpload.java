@@ -1,4 +1,4 @@
-package com.kingbase.bookSearch.book.bean;
+package com.kingbase.bookSearch.common.bean;
 
 import java.io.File;
 import java.io.Serializable;

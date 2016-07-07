@@ -13,6 +13,16 @@ public class CloudSolrServerImpl extends SolrServiceImpl {
 	private String urlPath;// zookeeper服务器的地址列表
 	private String core;// solr的核心
 
+	public CloudSolrServerImpl() {
+		super();
+	}
+
+	public CloudSolrServerImpl(String urlPath, String core) {
+		super();
+		this.urlPath = urlPath;
+		this.core = core;
+	}
+
 	public String getUrlPath() {
 		return urlPath;
 	}
